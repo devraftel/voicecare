@@ -93,7 +93,8 @@ The demo showcases:
 - Setting and receiving medication reminders
 - Engaging in casual conversation (jokes, weather, time)
 - Emergency alert system simulation
-
+- Talk to agent by dialing Agent Phone Number
+   
 ## 🏆 Sponsor Integration
 
 - Fal API integration for enhanced voice effects
