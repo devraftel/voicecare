@@ -1,5 +1,9 @@
 # VoiceCare: AI Companion for Elderly
 
+```
+AI friend for our elders. They cared for you when you were young, so now let VoiceCare help keep them company and brighten their day.
+```
+
 VoiceCare is an innovative AI-powered solution designed to address loneliness and health management challenges faced by seniors through voice interactions. The application provides medication reminders, appointment scheduling, cognitive exercises, and companionship through a natural voice interface.
 
 ## 🎯 Problem Statement
@@ -93,7 +97,8 @@ The demo showcases:
 - Setting and receiving medication reminders
 - Engaging in casual conversation (jokes, weather, time)
 - Emergency alert system simulation
-
+- Talk to agent by dialing Agent Phone Number
+   
 ## 🏆 Sponsor Integration
 
 - Fal API integration for enhanced voice effects
