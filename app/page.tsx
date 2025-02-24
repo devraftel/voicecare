@@ -8,6 +8,7 @@ import {
 import { useNotifications } from "@/hooks/useNotifications";
 import { useConversation } from "@11labs/react";
 import { motion } from "framer-motion";
+import posthog from "posthog-js";
 import { useCallback, useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import {
@@ -149,6 +150,11 @@ export default function LandingPage() {
 		onConnect: () => {
 			setIsConnected(true);
 			toast.success("Connected to Samantha");
+			posthog.capture("conversation_started", {
+				hasNotifications: notifications.length > 0,
+				notificationCount: notifications.length,
+			});
+
 			if (notifications.length > 0) {
 				toast.success(`You have ${notifications.length} unread notifications`);
 				// Samantha can proactively inform about notifications
@@ -160,14 +166,21 @@ export default function LandingPage() {
 		onDisconnect: () => {
 			setIsConnected(false);
 			toast.info("Disconnected from Samantha");
+			posthog.capture("conversation_ended");
 		},
 		onError: (error: Error) => {
 			setIsConnected(false);
 			toast.error(`Error: ${error.message}`);
+			posthog.capture("conversation_error", {
+				error: error.message,
+			});
 		},
 		onMessage: (message: { text: string }) => {
 			console.log("Message from agent:", message);
 			toast.info(message.text);
+			posthog.capture("agent_message_received", {
+				messageLength: message.text.length,
+			});
 		},
 	});
 
@@ -211,6 +224,13 @@ export default function LandingPage() {
 							type: "reminder",
 							user_id: 1,
 						});
+
+						posthog.capture("reminder_set", {
+							task,
+							datetime: eventDate.toISOString(),
+							success: result.success,
+						});
+
 						if (result.success) {
 							toast.success(`Reminder set: ${task} for ${datetime}`);
 							return {
@@ -242,6 +262,12 @@ export default function LandingPage() {
 							title: title,
 							type: "appointment",
 							user_id: 1,
+						});
+
+						posthog.capture("appointment_scheduled", {
+							title,
+							datetime: eventDate.toISOString(),
+							success: result.success,
 						});
 
 						// Here you would typically:
